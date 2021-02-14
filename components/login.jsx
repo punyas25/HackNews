@@ -8,7 +8,6 @@ import employeeData from '../employees.json'
 import styles from '../styles/general.module.css'
 import { getAllEmployees, getEmployee } from '../store/employee'
 
-
 const validations = {
   empId: {
     required: {value: true, message: "Employee id is required"}
@@ -65,6 +64,13 @@ const Login = () => {
               Click to Login
             </Button>
           </Form>
+
+          {
+            loginError &&
+            <div>
+              <p>Login failed. Please try again!</p>
+            </div>
+          }
         </Col>
       </Row>
     </Container>

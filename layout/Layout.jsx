@@ -1,5 +1,8 @@
 import React from 'react'
 import Head from 'next/head'
+import dynamic from 'next/dynamic'
+
+const Header = dynamic(() => import('./Header'))
 
 const App = ({ children}) => {
   return (
@@ -14,6 +17,9 @@ const App = ({ children}) => {
         content="Hack News: Latest Hackathon information"
         />
       </Head>
+      <section>
+        <Header />
+      </section>
       <section>
         {children}
       </section>

@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "tag": "Basic Programming"
+  }, {
+    "id": 2,
+    "tag": "Data Structures"
+  }, {
+    "id": 3,
+    "tag": "Maths"
+  }, {
+    "id": 4,
+    "tag": "Algorithms"
+  }, {
+    "id": 5,
+    "tag": "Machine Learning"
+  }, {
+    "id": 6,
+    "tag": "Databases"
+  }, {
+    "id": 7,
+    "tag": "Regex"
+  }, {
+    "id": 8,
+    "tag": "Linux"
+  }, {
+    "id": 9,
+    "tag": "Java"
+  }, {
+    "id": 10,
+    "tag": "Ruby"
+  }, {
+    "id": 11,
+    "tag": "Python"
+  }, {
+    "id": 12,
+    "tag": "C++"
+  }, {
+    "id": 13,
+    "tag": "Javascript"
+  }
+]

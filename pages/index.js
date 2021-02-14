@@ -1,6 +1,6 @@
 import React from 'react'
-import Layout from '../layout/Index'
-import Home from '../components/Index'
+import Layout from '../layout/Layout'
+import Home from '../components/challenges/index'
 
 const IndexPage = (props) => {
   return (
