@@ -1,4 +1,4 @@
-import { Button, Container, Row, Col } from 'react-bootstrap'
+import { Button, Row, Col } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import styles from '../styles/general.module.css'
 import { logout } from '../store/employee'
@@ -11,12 +11,12 @@ export default function Header () {
   }
 
   return (
-  <div className="header">
+  <div>
     <Row className={styles.header}>
       <Col className={styles.format }>
-        <h5>Hack News</h5>
+        <h5 className={styles.app_title}>Hack News</h5>
       </Col>
-      <Col>
+      <Col className={styles.right + ' ' + styles.format}>
         <Button variant="secondary" onClick={userLogout}>Logout</Button>
       </Col>
     </Row>

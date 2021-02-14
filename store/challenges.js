@@ -42,11 +42,22 @@ const challengeSlice = createSlice({
         challengeList.push(data)
         localStorage.setItem('challenges', JSON.stringify(challengeList));
         state.challenge  = data
+      },
+      updateVotes(state, action) {
+        const id = action.payload
+        let challengeList = [...state.challenges]
+        let currentChallenge = {...challengeList[id]}
+        let votes = currentChallenge['votes']
+        votes++
+        currentChallenge['votes'] = votes
+        challengeList[id] = currentChallenge
+        localStorage.setItem('challenges', JSON.stringify(challengeList));
+        state.challenges = challengeList
       }
     },
     extraReducers: {}
 })
 
-export const { getAllTags, getAllChallenges, getChallenge, addChallenge } = challengeSlice.actions
+export const { getAllTags, getAllChallenges, getChallenge, addChallenge, updateVotes } = challengeSlice.actions
 
 export default challengeSlice.reducer

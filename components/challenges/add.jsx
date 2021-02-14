@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link'
-import { Button, Form } from 'react-bootstrap'
+import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector} from 'react-redux'
 import { useRouter } from 'next/router'
 
 import tagsData from '../../tags.json'
 import { addChallenge } from '../../store/challenges';
+import styles from '../../styles/general.module.css'
 
 const validations = {
   title: {
@@ -26,24 +27,27 @@ const AddPage = () => {
 
   const saveChallenge = data => {
     let date = new Date()
-    data['created by'] = employee.id
-    data['created at'] = date.toLocaleString()
+    data['created_by'] = employee.id
+    data['created_at'] = date.toLocaleString()
+    data['votes'] = 0
 
     document.getElementById('addChallengeForm').reset();
     dispatch(addChallenge(data));
   }
 
     return (
-      <div>
+      <Container>
+        <Row className={styles.heading_block}>
+        <Col>
+          <h3>Add Challenge</h3>
+        </Col>
+        <Col className={styles.right + ' ' + styles.format}>
+          <Link href="/" >
+            <a className={styles.links}> <strong>←</strong> Go back </a>
+          </Link>
+        </Col>
+      </Row>
         <div>
-          <p>Add Challenge</p>
-        </div>
-        <div>
-          <div>
-            <Link href="/">
-              <a>Go back</a>
-            </Link>
-          </div>
           <Form id="addChallengeForm" onSubmit={handleSubmit(data => saveChallenge(data))}>
             <Form.Group controlId="title">
               <Form.Label>Title: </Form.Label>
@@ -57,27 +61,32 @@ const AddPage = () => {
 
             <Form.Group controlId="tags">
               <Form.Label>Tags: </Form.Label>
-              {
-                tagsData.map((data) => {
-                  return (
-                    <Form.Check
-                      custom
-                      key={data.id}
-                      type= "checkbox"
-                      name= {data.tag}
-                      id={`custom-${data.id}`}
-                      label={data.tag}
-                      ref = { register() }
-                    />
-                  )
-                })
-              }
+              <Row>
+                {
+                  tagsData.map((data) => {
+                    return (
+                      <Col md={3}>
+                        <Form.Check
+                          custom
+                          key={data.id}
+                          type= "checkbox"
+                          name= {data.tag}
+                          id={`custom-${data.id}`}
+                          label={data.tag}
+                          ref = { register() }
+                        />
+                      </Col>
+                    )
+                  })
+                }
+              </Row>
+
             </Form.Group>
 
             <Button variant="secondary" type="submit">Add Challenge</Button>
           </Form>
         </div>
-      </div>
+      </Container>
     );
 }
 
