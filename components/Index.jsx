@@ -1,16 +1,32 @@
-import React from 'react'
-import employeeData from '../employees.json'
+import React, { useEffect } from 'react'
+import { Button, Form, Container, Row, Col } from 'react-bootstrap'
+import { useDispatch, useSelector} from 'react-redux'
+import { useRouter } from 'next/router'
 import styles from '../styles/general.module.css'
+import {getAllChallenges } from '../store/challenges'
+
+const Index = () => {
+  const router = useRouter()
+  const dispatch = useDispatch()
+  const { employee } = useSelector(state => state.employees)
+  // const { challenges } = useSelector(state => state.challenges)
 
 
-const App = () => {
+  useEffect(() => {
+    if (!employee.id) {
+      router.push('/login')
+    }
+    // dispatch(getAllChallenges())
+  }, [])
+
+
   return (
-    <div className={styles.container}>
-      <h1>
-        Hack News
-      </h1>
-    </div>
+    <Container>
+      <Row>
+        Home
+      </Row>
+    </Container>
   )
 }
 
-export default App
+export default Index;
