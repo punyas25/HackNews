@@ -3,6 +3,7 @@ import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector} from 'react-redux'
 import { useRouter } from 'next/router'
+import Cookies from 'js-cookie'
 
 import employeeData from '../employees.json'
 import styles from '../styles/general.module.css'
@@ -17,8 +18,8 @@ const validations = {
 const Login = () => {
   const router = useRouter()
   const {register, handleSubmit, errors} = useForm()
-  const { employee } = useSelector(state => state.employees)
-  let loginError = false
+  const { employeeId, error } = useSelector(state => state.employees)
+  const employee_id = Cookies.get('employee_id')
 
   const dispatch = useDispatch()
 
@@ -26,22 +27,18 @@ const Login = () => {
     dispatch(getAllEmployees(employeeData))
   }, [])
 
-
   const loginUser = data => {
     dispatch(getEmployee(data))
   }
 
   useEffect(() => {
-    if (employee.id) {
+    if (employee_id) {
       router.push('/')
-    } else {
-      loginError  = true;
     }
-  }, [employee])
-
+  }, [employeeId])
 
   return (
-    <Container className={styles.container}>
+    <Container className={styles.container + ' ' + styles.login_container}>
       <Row>
         <Col>
           <h1 className={styles.title}>
@@ -64,11 +61,10 @@ const Login = () => {
               Click to Login
             </Button>
           </Form>
-
           {
-            loginError &&
-            <div>
-              <p>Login failed. Please try again!</p>
+            error &&
+            <div className={styles.error}>
+              <p>{error}</p>
             </div>
           }
         </Col>

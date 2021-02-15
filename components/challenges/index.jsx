@@ -3,22 +3,31 @@ import { Button, Container, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector} from 'react-redux'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import Cookies from 'js-cookie'
 
 import styles from '../../styles/general.module.css'
 import { getAllChallenges, sortChallenges, updateVotes } from '../../store/challenges'
+import tagsData from '../../tags.json'
 
 const Index = () => {
   const router = useRouter()
   const dispatch = useDispatch()
-  const { employee } = useSelector(state => state.employees)
+  const { employee, employeeId } = useSelector(state => state.employees)
   const { challenges } = useSelector(state => state.challenges)
+  const employee_id = Cookies.get('employee_id')
 
   useEffect(() => {
-    if (!employee.id) {
-      router.push('/login')
-    }
+    if (!employee_id) {
+        router.push('/login')
+      }
     dispatch(getAllChallenges())
   }, [])
+
+  useEffect(() => {
+    if (!employee_id) {
+      router.push('/login')
+    }
+  }, [employeeId])
 
   const handleClick = (data) => {
     dispatch(updateVotes(data))
@@ -55,9 +64,9 @@ const Index = () => {
       <Row className={styles.content_block}>
         <div className={styles.full_width}>
           <Row>
-            <Col md={1} className={styles.column_headers}><h6>Id</h6></Col>
+            <Col md={2} className={styles.column_headers}><h6>Tags</h6></Col>
             <Col md={2} className={styles.column_headers}><h6>Title</h6></Col>
-            <Col md={5} className={styles.column_headers}><h6>Description</h6></Col>
+            <Col md={4} className={styles.column_headers}><h6>Description</h6></Col>
             <Col md={1} className={styles.column_headers}>
               <h6>
                 <Button type="button" className={styles.sortbutton} onClick={() => sortAscending('vote')}>ᐃ</Button>
@@ -76,14 +85,20 @@ const Index = () => {
           </Row>
           {
             challenges.map((data, index) => {
-              let date = new Date(data.created_at)
+              let tags = ''
+              tagsData.map((t, i) => {
+                if (data[t.tag]) {
+                  tags = t.tag + ', ' + tags;
+                }
+              })
+              tags = tags.trim().slice(0, -1)
                 return (
                   <Row key={index} className={styles.challenge_block}>
-                    <Col md={1} className={styles.center}><p>{index + 1}</p></Col>
-                    <Col md={2}><p>{data.title}</p></Col>
-                    <Col md={5}><p>{data.description}</p></Col>
+                    <Col md={2}><p>{tags}</p></Col>
+                    <Col md={2} className={styles.center}><p>{data.title}</p></Col>
+                    <Col md={4}><p>{data.description}</p></Col>
                     <Col md={1} className={styles.center}><p>{data.votes}</p></Col>
-                    <Col md={2} className={styles.center}><p>{date.toLocaleString()}</p></Col>
+                    <Col md={2} className={styles.center}><p>{data.created_at}</p></Col>
                     <Col md={1} className={styles.center}>
                       <Button variant="secondary" type="button" disabled={(employee.id == data.created_by)} onClick={() => handleClick(index)} className={styles.upvote}>ᐃ</Button>
                     </Col>

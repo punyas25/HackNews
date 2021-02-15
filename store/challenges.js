@@ -6,13 +6,8 @@ const challengeSlice = createSlice({
       challenges: [],
       challengesCount: 0,
       challenge: {},
-      tags: []
     },
     reducers: {
-      getAllTags(state, action) {
-        const tagsData = action.payload
-        state.tags = tagsData
-      },
       getAllChallenges(state, action) {
         try {
           const challengeData = localStorage.getItem('challenges');
@@ -25,23 +20,12 @@ const challengeSlice = createSlice({
           return undefined;
         }
       },
-      getChallenge(state, action) {
-        const data = action.payload
-        let challengeData = {}
-
-        state.challenges.forEach(emp => {
-          if (emp['id'] == data.challenge_id) {
-            challengeData = emp
-          }
-        })
-        state.challenge = challengeData
-      },
       addChallenge(state, action) {
         const data = action.payload
-        let challengeList= state.challenges
+        let challengeList = [...state.challenges]
         challengeList.push(data)
         localStorage.setItem('challenges', JSON.stringify(challengeList));
-        state.challenge  = data
+        state.challenge = data
       },
       updateVotes(state, action) {
         const id = action.payload
@@ -56,12 +40,9 @@ const challengeSlice = createSlice({
       },
       sortChallenges(state, action) {
         let data = action.payload
-        console.log(data);
         let sortOrder = data.sort
         let sortCategory = data.type
-
         let challengeList = [...state.challenges]
-        console.log(challengeList);
 
         if (sortOrder == 'Ascending') {
           if (sortCategory == 'date') {
@@ -84,7 +65,6 @@ const challengeSlice = createSlice({
             challengeList.sort((a, b) => parseFloat(b.votes) - parseFloat(a.votes));
           }
         }
-        console.log(challengeList);
 
         localStorage.setItem('challenges', JSON.stringify(challengeList));
         state.challenges = challengeList
@@ -93,6 +73,6 @@ const challengeSlice = createSlice({
     extraReducers: {}
 })
 
-export const { getAllTags, getAllChallenges, getChallenge, addChallenge, updateVotes, sortChallenges } = challengeSlice.actions
+export const { getAllChallenges, getChallenge, addChallenge, updateVotes, sortChallenges } = challengeSlice.actions
 
 export default challengeSlice.reducer

@@ -1,5 +1,7 @@
 import { Button, Row, Col } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
+import React from 'react'
+
 import styles from '../styles/general.module.css'
 import { logout } from '../store/employee'
 

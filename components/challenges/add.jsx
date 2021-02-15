@@ -4,6 +4,7 @@ import { Container, Row, Col, Button, Form } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector} from 'react-redux'
 import { useRouter } from 'next/router'
+import Cookies from 'js-cookie'
 
 import tagsData from '../../tags.json'
 import { addChallenge } from '../../store/challenges';
@@ -22,15 +23,26 @@ const AddPage = () => {
   const router = useRouter()
   const {register, handleSubmit, errors} = useForm()
   const dispatch = useDispatch();
+  const employee_id = Cookies.get('employee_id')
+  const { employeeId } = useSelector(state => state.employees)
 
-  const { employee } = useSelector(state => state.employees)
+  useEffect(() => {
+    if (!employee_id) {
+      router.push('/login')
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!employee_id) {
+      router.push('/login')
+    }
+  }, [employeeId])
 
   const saveChallenge = data => {
     let date = new Date()
-    data['created_by'] = employee.id
-    data['created_at'] = date
+    data['created_by'] = employee_id
+    data['created_at'] = date.toJSON()
     data['votes'] = 0
-
     document.getElementById('addChallengeForm').reset();
     dispatch(addChallenge(data));
   }
@@ -67,7 +79,6 @@ const AddPage = () => {
                     return (
                       <Col md={3}>
                         <Form.Check
-                          custom
                           key={data.id}
                           type= "checkbox"
                           name= {data.tag}

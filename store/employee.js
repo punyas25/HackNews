@@ -1,11 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit'
+import Cookies from 'js-cookie'
+
+const empCookie = Cookies.get('employee_id')
 
 const employeeSlice = createSlice({
   name: 'employee',
   initialState: {
     employees: [],
     employeesCount: 0,
-    employee: {}
+    employee: {},
+    employeeId :  empCookie ? empCookie : '',
+    error: ''
   },
   reducers: {
     getAllEmployees(state, action) {
@@ -20,12 +25,20 @@ const employeeSlice = createSlice({
       state.employees.forEach(emp => {
         if (emp['id'] == data.employee_id) {
           employeeData = emp
+          Cookies.set('employee_id', emp['id'])
+          state.error = ''
         }
       })
       state.employee = employeeData
+      state.employeeId = data.employee_id
+      if (!employeeData.length) {
+        state.error = 'Enter Valid Employee Id. Please try again.'
+      }
     },
-    logout(state, action) {
-      state = initialState
+    logout(state) {
+      Cookies.remove('employee_id')
+      state.employeeId = ''
+      state.error = ''
     }
   },
   extraReducers: {
