@@ -28,7 +28,7 @@ const AddPage = () => {
   const saveChallenge = data => {
     let date = new Date()
     data['created_by'] = employee.id
-    data['created_at'] = date.toLocaleString()
+    data['created_at'] = date
     data['votes'] = 0
 
     document.getElementById('addChallengeForm').reset();

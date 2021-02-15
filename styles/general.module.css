@@ -1,6 +1,7 @@
 .container {
   min-height: 100vh;
-  padding: 0 0.5rem;
+  max-width: 90vw;
+  padding: 0 8px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -27,8 +28,13 @@
   margin: 10px 10px 5px;
 }
 
+.full_width {
+  width: 100%;
+}
+
 .heading_block, .content_block {
-  margin: 20px auto;
+  margin: 20px auto 10px;
+  width: 100%;
 }
 
 .links:hover {
@@ -44,4 +50,27 @@
 
 .upvote {
   border-radius: 50%;
+}
+
+.sortbutton {
+  border-radius: 50%;
+  font-size: 10px;
+  padding: 2px 3px;
+  text-align: center;
+  background-color: transparent;
+  color: #000000;
+  font-weight: bold;
+  border: none;
+  outline:none;
+}
+
+.sortbutton:hover, .sortbutton:active, .sortbutton:focus {
+  background-color: transparent;
+  color: #000000;
+  border: none;
+  outline:none;
+}
+
+.challenge_block {
+  margin: 15px auto;
 }
